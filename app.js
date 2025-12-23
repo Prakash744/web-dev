@@ -1,5 +1,6 @@
 let gameSequence = [];
 let userSequence = [];
+let highScore = localStorage.getItem("highScore") || 0;
 
 let btns = ["yellow", "red", "green", "blue"];
 
@@ -53,11 +54,21 @@ function checkAnswer() {
       }, 1000);
     }
   } else {
-    h2.innerHTML = `Game Over! your score was <b>${level}</b>. Press any key to Restart`;
+    if (level - 1 > highScore) {
+      highScore = level - 1;
+      localStorage.setItem("highScore", highScore);
+    }
+
+    h2.innerHTML = `Game Over! <br>
+  Your Score: <b>${level - 1}</b> <br>
+  High Score: <b>${highScore}</b> <br>
+  Press any key to Restart`;
+
     document.querySelector("body").style.backgroundColor = "red";
-    setTimeout(function () {
+    setTimeout(() => {
       document.querySelector("body").style.backgroundColor = "";
     }, 200);
+
     restartGame();
   }
 }
